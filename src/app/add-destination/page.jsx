@@ -10,31 +10,48 @@ import {
   Select,
   Card,
 } from "@heroui/react";
-import React from "react";
+import { toast, Zoom } from "react-toastify";
 
 //get form data
 const AddDestinationPage = () => {
-    const onSubmit = async (e) =>{
-        e.preventDefault()
-        const formData = new FormData(e.currentTarget)
-        const destination = Object.fromEntries(formData.entries())
+  const onSubmit = async (e) => {
+  e.preventDefault();
 
-        console.log(destination)
+  try {
+    const formData = new FormData(e.currentTarget);
+    const destination = Object.fromEntries(formData.entries());
 
-        //Calling the API that was created in the backend
-        const res = await fetch('http://localhost:5000/destination', {
-            method: 'POST',
-            headers: {
-                'content-type' : 'application/json'
-            },
-            body: JSON.stringify(destination)
-        })
+    console.log(destination);
 
-        const data = await res.json()
+    const res = await fetch("http://localhost:5000/destination", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(destination),
+    });
 
-        console.log(data)
+    console.log(res);
+
+    if (!res.ok) {
+      throw new Error("Failed to add destination");
     }
 
+    const data = await res.json();
+
+    toast.success("Destination Added!", {
+      position: "top-right",
+      autoClose: 3000,
+      theme: "colored",
+      transition: Zoom,
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    toast.error("Something went wrong!");
+  }
+};
   return (
     <div className="p-5 max-w-7xl mx-auto">
       <h1 className="text-2xl font-bold">Add Destination</h1>
