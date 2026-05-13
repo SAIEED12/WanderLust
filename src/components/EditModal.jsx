@@ -1,6 +1,4 @@
 "use client";
-
-import { Envelope } from "@gravity-ui/icons";
 import {
   Button,
   FieldError,
@@ -33,7 +31,7 @@ export function EditModal({ destination }) {
     const formData = new FormData(e.currentTarget);
     const destination = Object.fromEntries(formData.entries());
 
-    const res = await fetch(`http://localhost:5000/destinations/${_id}`, {
+    const res = await fetch(`http://localhost:8000/destinations/${_id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",

@@ -1,23 +1,23 @@
 "use client";
-import { Card, Separator } from "@heroui/react";
+import { Card, Separator, Checkbox } from "@heroui/react";
 import {
   Button,
-  Description,
-  FieldError,
   Form,
   Input,
   Label,
   TextField,
+  FieldError,
 } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { toast, Zoom } from "react-toastify";
+import { LuMail, LuLock } from "react-icons/lu";
+import Link from "next/link";
 
 const LoginPage = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
-
     const formData = new FormData(e.currentTarget);
     const user = Object.fromEntries(formData.entries());
 
@@ -26,21 +26,10 @@ const LoginPage = () => {
       password: user.password,
     });
 
-    console.log({ data, error });
-
-    if (data) {
-      redirect("/");
-    }
+    if (data) redirect("/");
 
     if (error) {
-    toast.error("Login Failed!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+      toast.error("Login Failed!", {
         theme: "colored",
         transition: Zoom,
       });
@@ -48,80 +37,83 @@ const LoginPage = () => {
   };
 
   const handleGoogleSignin = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-    });
+    await authClient.signIn.social({ provider: "google" });
   };
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <div className="text-center my-3">
-        <h1 className="text-2xl font-bold">Login</h1>
-        <p>Start your adventure with Wanderlust</p>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50/30 py-12">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-serif mb-2">Welcome Back</h1>
+        <p className="text-gray-500">Resume your adventure with Wanderlust</p>
       </div>
-      <Card className="border rounded-none">
-        <Form onSubmit={onSubmit} className="flex w-96 flex-col gap-4">
-          <TextField
-            isRequired
-            name="email"
-            type="email"
-            validate={(value) => {
-              if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
-                return "Please enter a valid email address";
-              }
-              return null;
-            }}
-          >
-            <Label>Email</Label>
-            <Input placeholder="john@example.com" />
+
+      <Card className="p-10 w-full max-w-md shadow-lg border-none rounded-sm bg-white">
+        <Form onSubmit={onSubmit} className="flex flex-col gap-5">
+          {/* Email Field */}
+          <TextField isRequired name="email" type="email" className="flex flex-col gap-1">
+            <Label className="text-sm font-bold text-gray-700">Email Address</Label>
+            <Input 
+              placeholder="Enter your email" 
+              startContent={<LuMail className="text-gray-400" />}
+              className="bg-gray-50"
+            />
             <FieldError />
           </TextField>
-          <TextField
-            isRequired
-            minLength={8}
-            name="password"
-            type="password"
-            validate={(value) => {
-              if (value.length < 8) {
-                return "Password must be at least 8 characters";
-              }
-              if (!/[A-Z]/.test(value)) {
-                return "Password must contain at least one uppercase letter";
-              }
-              if (!/[0-9]/.test(value)) {
-                return "Password must contain at least one number";
-              }
-              return null;
-            }}
-          >
-            <Label>Password</Label>
-            <Input placeholder="Enter your password" />
-            <Description>
-              Must be at least 8 characters with 1 uppercase and 1 number
-            </Description>
+
+          {/* Password Field */}
+          <TextField isRequired name="password" type="password" className="flex flex-col gap-1">
+            <Label className="text-sm font-bold text-gray-700">Password</Label>
+            <Input 
+              placeholder="Enter your password" 
+              startContent={<LuLock className="text-gray-400" />}
+              className="bg-gray-50"
+            />
             <FieldError />
           </TextField>
-          <div className="flex justify-center gap-2">
-            <Button className={"rounded-none w-full bg-cyan-500"} type="submit">
-              Login
-            </Button>
+
+          {/* Remember Me & Forgot Password */}
+          <div className="flex items-center justify-between">
+            <Checkbox size="sm" className="text-gray-600">Remember me</Checkbox>
+            <Link href="#" className="text-sm text-cyan-500 hover:underline">
+              Forgot password?
+            </Link>
           </div>
+
+          <Button 
+            className="w-full bg-[#17A2B8] text-white rounded-sm h-12 font-medium mt-2" 
+            type="submit"
+          >
+            Sign In
+          </Button>
         </Form>
 
-        <div className="flex justify-center items-center gap-3">
-          <Separator />
-          <div className="whitespace-nowrap"> Or sign up with </div>
-          <Separator />
+        {/* Separator */}
+        <div className="relative my-8 text-center">
+          <div className="absolute inset-0 flex items-center">
+            <Separator className="w-full" />
+          </div>
+          <span className="relative bg-white px-4 text-sm text-gray-500">
+            Or continue with
+          </span>
         </div>
-        <div>
-          <Button
-            onClick={handleGoogleSignin}
-            variant="outline"
-            className={"w-full rounded-none"}
-          >
-            <FcGoogle /> Sign in with Google
-          </Button>
-        </div>
+
+        {/* Social Login */}
+        <Button
+          onClick={handleGoogleSignin}
+          variant="bordered"
+          className="w-full rounded-sm border-gray-200 h-12 font-medium text-gray-700"
+        >
+          <FcGoogle size={20} /> Sign Up With Google
+        </Button>
+
+        {/* Footer Link */}
+        <p className="text-center mt-8 text-sm text-gray-600">
+          Don&apos;t have an account?{" "}
+          <Link href="/signup" className="text-cyan-500 font-bold hover:underline">
+            Sign Up
+          </Link>
+        </p>
       </Card>
     </div>
   );

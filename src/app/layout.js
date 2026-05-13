@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 
 const Josefin = Josefin_Sans({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
         {children}
         <ToastContainer />
         <Footer></Footer>
+        <Toaster />
         </body>
     </html>
   );

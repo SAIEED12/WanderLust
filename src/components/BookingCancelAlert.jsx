@@ -2,27 +2,36 @@
 
 import { TrashBin } from "@gravity-ui/icons";
 import { AlertDialog, Button } from "@heroui/react";
-import { redirect } from "next/navigation";
 
-export function DeleteAlert({ destination }) {
-  const { _id, destinationName } = destination;
+export function BookingCancelAlert({bookingId}) {
 
-  const handleDelete = async () => {
-    const res = await fetch(`http://localhost:8000/destinations/${_id}`, {
-      method: "DELETE",
-      headers: {
-        "content-type": "application/json",
-      },
-    });
 
-    const data = await res.json();
-    redirect('/destinations')
-  };
+    const handleCancelBooking = async() =>{
+
+        const res = await fetch(`http://localhost:8000/booking/${bookingId}`, {
+            method: "DELETE",
+            headers: {
+                "content-type": "application/json"
+            }
+        })
+
+        const data = await res.json();
+
+        window.location.reload();
+
+        
+    }
+
+
   return (
     <AlertDialog>
-      <Button className={"text-red-500 rounded-none"} variant="outline">
-        <TrashBin /> Delete
+      <Button
+        className={" rounded-none border-red-500 text-red-500"}
+        variant="outline"
+      >
+        <TrashBin /> Cancel
       </Button>
+
       <AlertDialog.Backdrop>
         <AlertDialog.Container>
           <AlertDialog.Dialog className="sm:max-w-[400px]">
@@ -30,20 +39,16 @@ export function DeleteAlert({ destination }) {
             <AlertDialog.Header>
               <AlertDialog.Icon status="danger" />
               <AlertDialog.Heading>
-                Delete destination permanently?
+                Cancel Project permanently?
               </AlertDialog.Heading>
             </AlertDialog.Header>
             <AlertDialog.Body>
-              <p>
-                This will permanently delete <strong>{destinationName}</strong>{" "}
-                and all of its data. This action cannot be undone.
-              </p>
             </AlertDialog.Body>
             <AlertDialog.Footer>
               <Button slot="close" variant="tertiary">
                 Cancel
               </Button>
-              <Button onClick={handleDelete} slot="close" variant="danger">
+              <Button onClick={handleCancelBooking} slot="close" variant="danger">
                 Delete
               </Button>
             </AlertDialog.Footer>
