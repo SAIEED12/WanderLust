@@ -101,11 +101,11 @@ const Navbar = () => {
           ) : (
             <>
               <li>
-                <Link href={"/login"} className="hover:text-black transition-colors">Login</Link>
+                <Link href={"/login"} className="text-sm font-medium bg-cyan-500 text-white py-2 px-4 rounded-md hover:bg-cyan-600">Login</Link>
               </li>
               <li>
                 <Link href={"/signup"}>
-                  <Button size="sm" className="bg-black text-white font-semibold rounded-md">
+                  <Button size="sm" className="text-sm font-medium bg-cyan-500 text-white py-2 px-4 rounded-md hover:bg-cyan-600">
                     Sign Up
                   </Button>
                 </Link>
@@ -124,7 +124,9 @@ const Navbar = () => {
               </Avatar>
             </Link>
           ) : (
-            <Link href={"/login"} className="text-sm font-medium text-gray-700">Login</Link>
+            <Link href={"/login"} className="text-sm font-medium bg-cyan-500 text-white py-2 px-4 rounded-md hover:bg-cyan-600">
+              Login
+            </Link>
           )}
         </div>
 
@@ -142,13 +144,13 @@ const Navbar = () => {
                 size="md"
                 onClick={() => { handleSignOut(); toggleMenu(); }}
                 color="danger"
-                className="w-full mt-2 rounded-md"
+                className="w-full mt-2 rounded-md "
               >
                 Logout
               </Button>
             ) : (
               <Link href={"/signup"} onClick={toggleMenu} className="w-full mt-2">
-                <Button size="md" className="bg-black text-white w-full rounded-md">
+                <Button size="md" className="bg-cyan-500 font-bold hover:underline">
                   Sign Up
                 </Button>
               </Link>

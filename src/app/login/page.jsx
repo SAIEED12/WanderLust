@@ -74,7 +74,6 @@ const LoginPage = () => {
 
           {/* Remember Me & Forgot Password */}
           <div className="flex items-center justify-between">
-            <Checkbox size="sm" className="text-gray-600">Remember me</Checkbox>
             <Link href="#" className="text-sm text-cyan-500 hover:underline">
               Forgot password?
             </Link>

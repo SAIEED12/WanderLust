@@ -10,12 +10,12 @@ const NotFoundPage = () => {
             <h1 className="text-6xl font-extrabold text-slate-800 mb-2">404</h1>
             
             <h2 className="text-2xl font-bold text-slate-600 mb-4">
-                Oops! You've Wandered Off the Map
+                Oops! You have Wandered Off the Map
             </h2>
             
             <p className="text-slate-500 max-w-md mb-8">
                 The page you are looking for might have been removed, had its name changed, 
-                or is temporarily unavailable. Let's get you back on track!
+                or is temporarily unavailable.
             </p>
             
             <Link
