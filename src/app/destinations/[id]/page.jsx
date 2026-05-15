@@ -1,6 +1,8 @@
 import BookingCard from "@/components/BookingCard";
 import { DeleteAlert } from "@/components/DeleteAlert";
 import { EditModal } from "@/components/EditModal";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import { FaRegCalendar, FaStar } from "react-icons/fa6";
@@ -8,12 +10,21 @@ import { LuMapPin, LuMoveLeft } from "react-icons/lu";
 
 const DestinationDetailsPage = async ({ params }) => {
   const { id } = await params;
-
-  const res = await fetch(`http://localhost:8000/destinations/${id}`);
+const { token } = await auth.api.getToken({
+  headers: await headers()
+})
+  console.log(token)
+  const res = await fetch(`http://localhost:8000/destinations/${id}`,{
+    headers: {
+      authorization: `Bearer ${token}`
+    }
+  });
   const destination = await res.json();
 
   const { imageUrl, price, destinationName, duration, country, description } =
     destination;
+
+    console.log(destination)
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">

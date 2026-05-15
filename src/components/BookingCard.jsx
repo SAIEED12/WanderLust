@@ -36,18 +36,21 @@ const BookingCard = ({ destination }) => {
       departureDate: new Date(departureDate).toISOString(),
     };
 
-    try {
+    const {data:tokenData} = await authClient.token()
+    console.log(tokenData)
+
+    try 
+    {
       const res = await fetch("http://localhost:8000/booking", {
         method: "POST",
         headers: {
           "content-type": "application/json",
+          authorization: `Bearer ${tokenData?.token}`
         },
         body: JSON.stringify(bookingData),
       });
 
-      // 2. Check if server response is OK (prevents the JSON SyntaxError)
       if (!res.ok) {
-        // If the server crashes with a 500, we catch it here before parsing JSON
         const errorText = await res.text();
         console.error("Server Error Response:", errorText);
         throw new Error("Failed to save booking on the server.");
@@ -56,7 +59,10 @@ const BookingCard = ({ destination }) => {
       const data = await res.json();
       toast.success("Booking Successful!");
       
-    } catch (error) {
+    } 
+    
+    catch (error) 
+    {
       console.error("Booking Error:", error);
       toast.error("Something went wrong. Please try again.");
     }
